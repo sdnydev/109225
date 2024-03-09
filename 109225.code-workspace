@@ -57,6 +57,7 @@
       "packages/eslint-config",
       "packages/typescript-config",
     ],
+    "testing.openTesting": "neverOpen",
     "typescript.format.semicolons": "insert",
     "typescript.preferences.importModuleSpecifier": "project-relative",
     "typescript.preferences.quoteStyle": "single",
