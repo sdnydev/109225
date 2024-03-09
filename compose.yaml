@@ -9,16 +9,20 @@
 # https://github.com/docker/awesome-compose
 services:
   api:
+    env_file:
+      - .env
     build:
       context: .
       dockerfile: apps/api/Dockerfile
       target: dev
+      args:
+        - PORT=${API_PORT}
     environment:
       NODE_ENV: development
     networks:
       - 109225-network
     ports:
-      - 3000:3000
+      - ${API_PORT}:${API_PORT}
     volumes:
       - ./:/usr/109225
 
