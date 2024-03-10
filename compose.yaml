@@ -35,6 +35,32 @@ services:
     depends_on:
       db:
         condition: service_healthy
+  app:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: apps/app/Dockerfile
+      target: dev
+      args:
+        - VITE_API_URL=${API_URL}
+        - VITE_API_PORT=${API_PORT}
+    environment:
+      NODE_ENV: development
+    healthcheck:
+      test: ["CMD", "wget", "${API_URL}:${API_PORT}/health -q -O - > /dev/null 2>&1"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    networks:
+      - 109225-network
+    ports:
+      - 5173:5173
+    volumes:
+      - ./:/usr/109225
+    depends_on:
+      api:
+        condition: service_started
   db:
     hostname: ${POSTGRES_HOST}
     image: postgres
