@@ -1,0 +1,31 @@
+ARG NODE_VERSION=20.11.0
+
+FROM node:${NODE_VERSION}-alpine AS base
+ARG PORT
+ARG WILDFIRE_API_URL
+
+# Test for expected arguments and fail immediately if any are missing
+RUN test -n "$PORT"
+RUN test -n "$WILDFIRE_API_URL"
+
+FROM base as build
+WORKDIR /tmp/build
+
+COPY . .
+RUN npx turbo prune api
+WORKDIR /tmp/build/out
+RUN npm pkg delete scripts.prepare && npm ci --include=dev --verbose
+RUN npm run build
+CMD npm prune --production
+
+FROM base AS prod
+ARG PORT
+ARG WILDFIRE_API_URL
+
+ENV PORT $PORT
+ENV WILDFIRE_API_URL $WILDFIRE_API_URL
+
+WORKDIR /app
+
+COPY --from=build /tmp/build/out ./
+CMD npm -w api run start:prod
