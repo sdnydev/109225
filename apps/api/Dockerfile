@@ -15,7 +15,7 @@ ARG WILDFIRE_API_URL
 ENV PORT $PORT
 ENV WILDFIRE_API_URL $WILDFIRE_API_URL
 
-WORKDIR /tmp/build
+WORKDIR /usr/109225
 
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
