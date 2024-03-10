@@ -20,6 +20,10 @@
       "path": "apps/api",
     },
     {
+      "name": "apps/app",
+      "path": "apps/app",
+    },
+    {
       "name": "packages/eslint-config",
       "path": "packages/eslint-config",
     },

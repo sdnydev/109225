@@ -5,7 +5,8 @@
   "license": "Apache-2.0",
   "files": [
     "library.js",
-    "nest.js"
+    "nest.js",
+    "vite.js"
   ],
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^7.1.0",
@@ -15,6 +16,8 @@
     "eslint-config-turbo": "^1.12.4",
     "eslint-plugin-only-warn": "^1.1.0",
     "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
     "typescript": "^5.3.3"
   }
 }
