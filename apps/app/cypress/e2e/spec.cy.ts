@@ -6,8 +6,11 @@ describe('User Stories', () => {
         it('navigate to application link', () => cy.visit('/'));
 
         context('THEN I can view all wildfires from the year 2023', () => {
-          it('', () => {
-            cy.then(() => expect(true).to.be.equal(false));
+          it('Can see the correct page header', () => {
+            cy.visit('/');
+            cy.get('h1').then((heading) => {
+              expect(heading.text()).to.be.equal('Wildfires in BC 2023');
+            });
           });
         });
       });

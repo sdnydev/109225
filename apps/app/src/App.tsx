@@ -1,12 +1,21 @@
-import { useState } from 'react';
+import { Col, Row } from 'antd';
+import { Outlet } from 'react-router-dom';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <h1>Hello, world!</h1>
-    </>
+    <Row justify="center">
+      <Col
+        xs={24}
+        sm={24}
+        md={24}
+        lg={12}
+        xl={12}
+        xxl={12}
+        style={{ padding: '2rem' }}
+      >
+        <Outlet />
+      </Col>
+    </Row>
   );
 }
 
