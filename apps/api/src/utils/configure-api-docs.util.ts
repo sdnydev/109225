@@ -8,5 +8,5 @@ export function configureApiDocs(app: INestApplication<any>) {
     .addTag('fires')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/v1/docs', app, document);
+  SwaggerModule.setup('v1/docs', app, document);
 }

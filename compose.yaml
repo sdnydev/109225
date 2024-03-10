@@ -17,6 +17,7 @@ services:
       target: dev
       args:
         - PORT=${API_PORT}
+        - WILDFIRE_API_URL=${WILDFIRE_API_URL}
     environment:
       NODE_ENV: development
     networks:
