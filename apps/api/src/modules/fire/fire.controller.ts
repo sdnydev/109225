@@ -19,4 +19,9 @@ export class FireController {
   ) {
     return this.fireService.getFires(filters, pagination);
   }
+
+  @Get('metadata')
+  getMetadata() {
+    return this.fireService.getMetadata();
+  }
 }

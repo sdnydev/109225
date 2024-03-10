@@ -5,6 +5,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { catchError, firstValueFrom, map } from 'rxjs';
 import { PaginationParams } from '../../decorators/pagination.decorator';
 import { ApiPagedResponse } from '../../dtos/api-paged-response.dto';
+import { ApiResponse } from '../../dtos/api-response.dto';
 import { AppConfigDto } from '../../dtos/app-config.dto';
 import { FireFilters } from './decorators/fire-filter.decorator';
 import { FireDto } from './dtos/fire.dto';
@@ -16,6 +17,14 @@ export class FireService {
     private readonly configService: ConfigService<AppConfigDto, true>,
     private readonly httpService: HttpService,
   ) {}
+
+  private getUniqueValues = (array: unknown[], key: string) => [
+    ...new Set(
+      array.map((item) => {
+        item[key];
+      }),
+    ),
+  ];
 
   async getFires(
     filters: FireFilters,
@@ -64,6 +73,36 @@ export class FireService {
             throw error;
           }),
         ),
+    );
+
+    return result;
+  }
+
+  async getMetadata(): Promise<ApiResponse> {
+    const result = await firstValueFrom(
+      this.httpService.get(this.configService.get('WILDFIRE_API_URL')).pipe(
+        map((response: AxiosResponse) => {
+          const { features } = response.data;
+
+          const fireCauses: Set<string> = new Set();
+          const fireStatuses: Set<string> = new Set();
+
+          features.forEach(({ properties }) => {
+            fireCauses.add(properties.FIRE_CAUSE);
+            fireStatuses.add(properties.FIRE_STATUS);
+          });
+
+          return {
+            data: {
+              FIRE_CAUSE: Array.from(fireCauses).sort(),
+              FIRE_STATUS: Array.from(fireStatuses).sort(),
+            },
+          } as ApiResponse;
+        }),
+        catchError((error: AxiosError) => {
+          throw error;
+        }),
+      ),
     );
 
     return result;

@@ -2,6 +2,7 @@ import { HttpModule, HttpService } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ApiPagedResponse } from '../../dtos/api-paged-response.dto';
+import { ApiResponse } from '../../dtos/api-response.dto';
 import { FireDto } from './dtos/fire.dto';
 import { FireService } from './fire.service';
 
@@ -37,5 +38,17 @@ describe('FireService', () => {
 
     jest.spyOn(service, 'getFires').mockImplementation(async () => result);
     expect(await service.getFires({}, {})).toBe(result);
+  });
+
+  it('can get a list of fire metadata', async () => {
+    const result: ApiResponse = {
+      data: {
+        FIRE_CAUSE: [],
+        FIRE_STATUS: [],
+      },
+    };
+
+    jest.spyOn(service, 'getMetadata').mockImplementation(async () => result);
+    expect(await service.getMetadata()).toBe(result);
   });
 });
