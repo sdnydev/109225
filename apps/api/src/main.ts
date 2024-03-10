@@ -11,6 +11,9 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
+  // Enable CORS
+  app.enableCors();
+
   // Enable API Versioning
   app.enableVersioning();
 
