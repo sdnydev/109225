@@ -1,6 +1,9 @@
-import { IsNumber, IsUrl } from 'class-validator';
+import { IsNumber, IsString, IsUrl } from 'class-validator';
 
 export class AppConfigDto {
+  @IsString()
+  DATABASE_URL: string;
+
   @IsNumber()
   PORT: number;
 
