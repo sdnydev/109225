@@ -1,10 +1,10 @@
 import { api } from '.';
 
-interface ApiResponse {
+export interface ApiResponse {
   data: Record<string, any>;
 }
 
-interface ApiPagedResponse<T> {
+export interface ApiPagedResponse<T> {
   data: T[];
   meta: {
     count: number;
@@ -14,7 +14,7 @@ interface ApiPagedResponse<T> {
   };
 }
 
-interface FireFilterParams {
+export interface FireFilterParams {
   geographic_description?: string;
   fire_cause?: string;
   fire_status?: string;
