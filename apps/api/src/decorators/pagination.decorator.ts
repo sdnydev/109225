@@ -22,7 +22,7 @@ export const Pagination = createParamDecorator(
     const request = context.switchToHttp().getRequest();
 
     const page = parseInt(request.query.page, 10) || 1;
-    const pageSize = parseInt(request.query.pageSize, 10) || 10;
+    const pageSize = parseInt(request.query.page_size, 10) || 10;
 
     return {
       page: page >= 1 ? page : 1,

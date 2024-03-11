@@ -1,5 +1,9 @@
 import { api } from '.';
 
+interface ApiResponse {
+  data: Record<string, any>;
+}
+
 interface ApiPagedResponse<T> {
   data: T[];
   meta: {
@@ -8,6 +12,14 @@ interface ApiPagedResponse<T> {
     page_count: number;
     page_size: number;
   };
+}
+
+interface FireFilterParams {
+  geographic_description?: string;
+  fire_cause?: string;
+  fire_status?: string;
+  page?: number;
+  page_size?: number;
 }
 
 export class Fire {
@@ -34,10 +46,21 @@ export class Fire {
 
 export const fireApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getFires: builder.query<any, void>({
-      query: () => '/v1/fires',
+    getFires: builder.query<ApiPagedResponse<Fire>, FireFilterParams>({
+      query: (args) => {
+        const parts: string[] = [];
+
+        for (const [key, value] of Object.entries(args)) {
+          parts.push(`${key}=${value}`);
+        }
+
+        return `/v1/fires${parts.length > 0 ? `?${parts.join('&')}` : ''}`;
+      },
+    }),
+    getFireMetadata: builder.query<ApiResponse, void>({
+      query: () => 'v1/fires/metadata',
     }),
   }),
 });
 
-export const { useLazyGetFiresQuery } = fireApi;
+export const { useLazyGetFiresQuery, useGetFireMetadataQuery } = fireApi;
