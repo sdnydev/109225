@@ -58,6 +58,7 @@
     "javascript.preferences.quoteStyle": "single",
     "jest.disabledWorkspaceFolders": [
       "109225",
+      "apps/app",
       "packages/eslint-config",
       "packages/typescript-config",
     ],
