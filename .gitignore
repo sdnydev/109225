@@ -251,4 +251,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Cypress
+**/cypress/downloads/*
+
 # End of https://www.toptal.com/developers/gitignore/api/linux,macos,node,react,turbo,visualstudiocode,windows
