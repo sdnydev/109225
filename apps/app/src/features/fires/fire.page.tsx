@@ -1,4 +1,16 @@
-import { Col, Form, Input, Row, Select, Table, Typography } from 'antd';
+import {
+  Button,
+  Col,
+  Flex,
+  Form,
+  Input,
+  Row,
+  Select,
+  Spin,
+  Table,
+  Typography,
+} from 'antd';
+import download from 'downloadjs';
 import { useEffect, useState } from 'react';
 import {
   Link,
@@ -7,9 +19,11 @@ import {
   useSearchParams,
 } from 'react-router-dom';
 import {
+  Fire,
   useGetFireMetadataQuery,
   useLazyGetFiresQuery,
 } from '../../redux/services/api/fire.api';
+import { FireMapComponent } from './fire-map.component';
 
 const { Title, Text } = Typography;
 
@@ -35,8 +49,6 @@ export const FirePage = () => {
     navigate(`${location.pathname}?${searchParams.toString()}`);
   }, [searchParams]);
 
-  console.log('searchParams: ', searchParams);
-
   const [trigger, { data, isFetching }] = useLazyGetFiresQuery();
   const { data: metadata, isLoading: metadataIsLoading } =
     useGetFireMetadataQuery();
@@ -59,6 +71,7 @@ export const FirePage = () => {
   const [geographicDescription, setGeographicDescription] = useState<
     string | null
   >(searchParams.get('geographic_description'));
+  const [downloadIsLoading, setDownloadIsLoading] = useState<boolean>(false);
   // ***************************************
 
   useEffect(() => {
@@ -90,6 +103,9 @@ export const FirePage = () => {
       <Link to={'/'}>
         <Title level={1}>Wildfires in BC 2023</Title>
       </Link>
+      <Spin spinning={isFetching}>
+        <FireMapComponent data={data?.data ? (data.data as Fire[]) : []} />
+      </Spin>
       <Row gutter={8}>
         <Col xs={24} md={12}>
           <Form.Item
@@ -188,6 +204,61 @@ export const FirePage = () => {
           </Form.Item>
         </Col>
       </Row>
+      <div style={{ marginBottom: '1rem' }}>
+        <Flex gap={8} justify="end">
+          <Button
+            onClick={() => {
+              const basePath = `${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}`;
+              const args = spreadSearchParams(searchParams);
+
+              const parts: string[] = [];
+
+              for (const [key, value] of Object.entries(args)) {
+                parts.push(`${key}=${value}`);
+              }
+
+              const url = `${basePath}/v1/fires/download${parts.length > 0 ? `?${parts.join('&')}` : ''}`;
+
+              setDownloadIsLoading(true);
+              fetch(url, { method: 'GET' })
+                .then((response) => response.blob())
+                .then((blob) => download(blob, 'fire-data-one-page.csv'))
+                .finally(() => setDownloadIsLoading(false));
+            }}
+            loading={downloadIsLoading}
+            type="primary"
+          >
+            Download Current Page
+          </Button>
+          <Button
+            onClick={() => {
+              const basePath = `${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}`;
+              const args = spreadSearchParams(searchParams);
+
+              // Increase window so all rows are downloaded
+              args.page = '1';
+              args.page_size = '3000';
+
+              const parts: string[] = [];
+
+              for (const [key, value] of Object.entries(args)) {
+                parts.push(`${key}=${value}`);
+              }
+
+              const url = `${basePath}/v1/fires/download${parts.length > 0 ? `?${parts.join('&')}` : ''}`;
+
+              setDownloadIsLoading(true);
+              fetch(url, { method: 'GET' })
+                .then((response) => response.blob())
+                .then((blob) => download(blob, 'fire-data-all-pages.csv'))
+                .finally(() => setDownloadIsLoading(false));
+            }}
+            loading={downloadIsLoading}
+          >
+            Download All Pages
+          </Button>
+        </Flex>
+      </div>
       <Table
         columns={Object.keys(data?.data[0] || []).map((k) => {
           return {
@@ -224,6 +295,7 @@ export const FirePage = () => {
           current: page,
           pageSize: pageSize,
           showSizeChanger: true,
+          pageSizeOptions: [10, 20, 50, 100, 500, 1000, 2000, 3000],
           total: total,
         }}
         scroll={{ x: true }}
