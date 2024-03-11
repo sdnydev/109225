@@ -101,12 +101,16 @@ export const FirePage = () => {
   return (
     <>
       <Link to={'/'}>
-        <Title level={1}>Wildfires in BC 2023</Title>
+        <Title data-cy="heading" level={1}>
+          Wildfires in BC 2023
+        </Title>
       </Link>
       <Spin spinning={isFetching}>
-        <FireMapComponent data={data?.data ? (data.data as Fire[]) : []} />
+        <div data-cy="map">
+          <FireMapComponent data={data?.data ? (data.data as Fire[]) : []} />
+        </div>
       </Spin>
-      <Row gutter={8}>
+      <Row data-cy="filters" gutter={8}>
         <Col xs={24} md={12}>
           <Form.Item
             htmlFor="geographicDescription"
@@ -114,6 +118,7 @@ export const FirePage = () => {
             labelCol={{ span: 24 }}
           >
             <Input.Search
+              data-cy="geographic-description"
               onSearch={(value) => {
                 setSearchParams((prev) => {
                   if (value == null || value === '') {
@@ -142,6 +147,7 @@ export const FirePage = () => {
             labelCol={{ span: 24 }}
           >
             <Select
+              data-cy="fire-cause"
               onChange={(value) => {
                 setSearchParams((prev) => {
                   if (value == null) {
@@ -171,6 +177,7 @@ export const FirePage = () => {
         </Col>
         <Col xs={24} md={6}>
           <Form.Item
+            data-cy="fire-status"
             htmlFor="fireStatus"
             label={<Text strong>Fire Status</Text>}
             labelCol={{ span: 24 }}
@@ -204,9 +211,10 @@ export const FirePage = () => {
           </Form.Item>
         </Col>
       </Row>
-      <div style={{ marginBottom: '1rem' }}>
+      <div data-cy="download-buttons" style={{ marginBottom: '1rem' }}>
         <Flex gap={8} justify="end">
           <Button
+            data-cy="download-current-page"
             onClick={() => {
               const basePath = `${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}`;
               const args = spreadSearchParams(searchParams);
@@ -260,6 +268,7 @@ export const FirePage = () => {
         </Flex>
       </div>
       <Table
+        data-cy="table"
         columns={Object.keys(data?.data[0] || []).map((k) => {
           return {
             title: k,
