@@ -18,7 +18,7 @@ export const Filter = ({
   metadata,
   metadataIsLoading,
 }: Props) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [_, setSearchParams] = useSearchParams();
 
   const { Text } = Typography;
 

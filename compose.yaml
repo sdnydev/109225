@@ -66,8 +66,6 @@ services:
     image: postgres
     restart: always
     user: ${POSTGRES_USER}
-    volumes:
-      - db-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
@@ -85,5 +83,3 @@ services:
 networks:
   109225-network:
     name: 109225-network
-volumes:
-  db-data:

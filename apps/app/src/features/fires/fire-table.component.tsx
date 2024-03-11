@@ -18,7 +18,7 @@ export const FireTable = ({
   pageSize,
   total,
 }: Props) => {
-  const [searchParams, setSearchParams] = useSearchParams({
+  const [_, setSearchParams] = useSearchParams({
     page: '1',
   });
 

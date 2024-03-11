@@ -17,10 +17,10 @@ import { FireMapComponent } from './fire-map.component';
 import { FireTable } from './fire-table.component';
 import { spreadSearchParams } from './utils/spread-search-params.util';
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 export const FirePage = () => {
-  const [searchParams, setSearchParams] = useSearchParams({
+  const [searchParams] = useSearchParams({
     page: '1',
   });
   const navigate = useNavigate();
@@ -43,15 +43,11 @@ export const FirePage = () => {
     +(searchParams.get('page_size') ?? 10) || 10,
   );
   const [total, setTotal] = useState<number>(0);
-  const [fireCause, setFireCause] = useState<string | null>(
-    searchParams.get('fire_cause'),
+  const [fireCause] = useState<string | null>(searchParams.get('fire_cause'));
+  const [fireStatus] = useState<string | null>(searchParams.get('fire_status'));
+  const [geographicDescription] = useState<string | null>(
+    searchParams.get('geographic_description'),
   );
-  const [fireStatus, setFireStatus] = useState<string | null>(
-    searchParams.get('fire_status'),
-  );
-  const [geographicDescription, setGeographicDescription] = useState<
-    string | null
-  >(searchParams.get('geographic_description'));
   // ***************************************
 
   useEffect(() => {
