@@ -26,7 +26,6 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 # CMD exec /bin/sh -c "trap : TERM INT; sleep infinity & wait"
 
 WORKDIR /usr/109225/apps/app
-RUN npm install -D @rollup/rollup-linux-arm64-musl
 
 WORKDIR /usr/109225
 USER node

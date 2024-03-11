@@ -19,6 +19,7 @@
     "@changesets/cli": "^2.27.1",
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
+    "@rollup/wasm-node": "^4.12.1",
     "husky": "^9.0.11",
     "prettier": "^3.2.5",
     "turbo": "latest"

@@ -1,81 +1,36 @@
-# Turborepo starter
+# README - 109225 - Sid McLaughlin
 
-This is an official starter Turborepo.
+## Prerequisites
 
-## Using this example
+- NodeJS: https://nodejs.org/en
+- Instructions to install: https://radixweb.com/blog/installing-npm-and-nodejs-on-windows-and-mac#windows
 
-Run the following command:
+## Running
 
-```sh
-npx create-turbo@latest
-```
-
-## What's inside?
-
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
+In a terminal, type the following commands
 
 ```
-cd my-turborepo
-pnpm build
+npm install && npx -w api prisma generate
+docker compose up --build -d
 ```
 
-### Develop
+## Notable Links
 
-To develop all apps and packages, run the following command:
+- Website: http://localhost:5173
+- API: http://localhost:4000/v1/fires
+- API Docs: http://localhost:4000/v1/docs
 
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+## Query to find number of API calls
 
 ```
-cd my-turborepo
-npx turbo login
+SELECT count(*) FROM request_log;
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## Tests
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+You can run tests by typing the following commands, either locally, or as part of a CI/CD pipeline.
 
 ```
-npx turbo link
+npx -w app cypress run
+npm -w api run test
 ```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
